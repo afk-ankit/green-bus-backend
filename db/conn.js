@@ -2,7 +2,9 @@ const mongoose = require("mongoose");
 
 const connectDb = () => {
   mongoose
-    .connect("mongodb://127.0.0.1:27017/greenBus")
+    .connect(
+      "mongodb+srv://ankit:ankit@cluster0.wt0xt6q.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
+    )
     .then(() => {
       console.log("successfully connected to the database");
     })
