@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 
+// mongoose.Schema.Types.String.set("lowercase", true);
+
 const connectDb = () => {
   mongoose
     .connect(

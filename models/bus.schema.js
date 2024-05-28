@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const BusSchema = new mongoose.Schema({
+  operator: { type: mongoose.Schema.Types.ObjectId, ref: "Operator" },
   bus_no: String,
   source: [String],
   destination: [String],
@@ -11,17 +12,12 @@ const BusSchema = new mongoose.Schema({
   bus_type: String,
   total_seats: Number,
   availabe_seats: [String],
-  last_week_income: [
-    {
-      date: Date,
-      income: Number,
-    },
-  ],
   staff: [
     {
       id: Number,
       name: String,
       role: String,
+      contact_number: String,
     },
   ],
   seat_layout: {
@@ -36,6 +32,6 @@ const BusSchema = new mongoose.Schema({
   },
 });
 
-const BusModel = new mongoose.models("User", BusSchema);
+const BusModel = new mongoose.model("Bus", BusSchema);
 
 module.exports = BusModel;

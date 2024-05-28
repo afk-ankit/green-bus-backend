@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = require("./config");
 
 const encodeJwt = (userData) => {
-  return jwt.sign({ email: userData.email, name: userData.name }, JWT_SECRET, {
+  return jwt.sign({ ...userData }, JWT_SECRET, {
     expiresIn: "30d",
   });
 };

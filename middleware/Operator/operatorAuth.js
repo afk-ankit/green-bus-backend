@@ -1,7 +1,7 @@
-const UserModel = require("../../models/user.schema");
+const OperatorModel = require("../../models/bus-operator.schema");
 const { decodeJwt } = require("../../utils/jwtUtils");
 
-const userAuth = async (req, res, next) => {
+const operatorAuth = async (req, res, next) => {
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     return res
@@ -12,7 +12,7 @@ const userAuth = async (req, res, next) => {
   const token = authHeader.split(" ")[1];
   try {
     const decoded = decodeJwt(token);
-    const existingUser = await UserModel.findOne({ email: decoded.email });
+    const existingUser = await OperatorModel.findOne({ email: decoded.email });
     if (!existingUser) {
       throw new Error();
     }
@@ -24,5 +24,5 @@ const userAuth = async (req, res, next) => {
 };
 
 module.exports = {
-  userAuth,
+  operatorAuth,
 };
