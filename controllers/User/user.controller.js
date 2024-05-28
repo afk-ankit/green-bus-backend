@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const catchAsync = require("../../utils/catchAsync");
 const UserModel = require("../../models/user.schema");
+const { encodeJwt } = require("../../utils/jwtUtils");
 
 const registerUser = catchAsync(async (req, res) => {
   const { name, contact_number, email, age, address, password } = req.body;
@@ -33,8 +34,8 @@ const loginUser = catchAsync(async (req, res) => {
   if (!validPassword) {
     return res.status(400).send("Invalid email or password.");
   }
-
-  res.send("Logged in successfully.");
+  const token = encodeJwt(user);
+  res.send({ token });
 });
 
 module.exports = {
