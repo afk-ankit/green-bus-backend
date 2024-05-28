@@ -2,23 +2,38 @@ const zod = require("zod");
 
 // Define the schema for user registration data
 const userRegistrationSchema = zod.object({
-  name: zod.string(),
-  contact_number: zod.string(),
+  name: zod.string().min(1),
+  contact_number: zod.string().min(10),
   email: zod.string().email(),
   age: zod.number().int().positive(),
-  address: zod.string(),
-  password: zod.string(),
+  address: zod.string().min(1),
+  password: zod.string().min(3),
 });
 
-// Create the validation middleware
+const userLoginSchema = zod.object({
+  email: zod.string().email(),
+  password: zod.string().min(3),
+});
+
 const validateUserRegistration = (req, res, next) => {
   const validationResult = userRegistrationSchema.safeParse(req.body);
-
   if (!validationResult.success) {
-    // Validation failed, send an error response
     res.status(400).json({ errors: validationResult.error.flatten() });
   } else {
-    // Validation succeeded, call the next middleware function
     next();
   }
+};
+
+const validateUserLogin = (req, res, next) => {
+  const validationResult = userLoginSchema.safeParse(req.body);
+  if (!validationResult.success) {
+    res.status(400).json({ errors: validationResult.error.flatten() });
+  } else {
+    next();
+  }
+};
+
+module.exports = {
+  validateUserRegistration,
+  validateUserLogin,
 };
