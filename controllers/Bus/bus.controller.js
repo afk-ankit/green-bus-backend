@@ -52,6 +52,7 @@ const searchBus = catchAsync(async (req, res) => {
 });
 
 const bookBus = catchAsync(async (req, res) => {
+  console.log("I am running");
   const { id } = req.params;
   const { selected_seats, date } = req.body;
 

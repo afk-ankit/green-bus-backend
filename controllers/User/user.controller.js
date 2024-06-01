@@ -35,8 +35,8 @@ const loginUser = catchAsync(async (req, res) => {
     return res.status(400).send("Invalid email or password.");
   }
   const { name, contact_number, _id, address, age } = user;
-  const token = encodeJwt({ name, contact_number, _id, address, age });
-  res.send({ token, data: { name, contact_number, _id, address, age } });
+  const token = encodeJwt({ name, contact_number, _id, address, age, email });
+  res.send({ token, data: { name, contact_number, _id, address, age, email } });
 });
 
 module.exports = {
