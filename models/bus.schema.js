@@ -11,7 +11,7 @@ const BusSchema = new mongoose.Schema({
   distance: { type: Map, of: Number },
   bus_type: String,
   total_seats: Number,
-  availabe_seats: [String],
+  booked_seats: [Number],
   staff: [
     {
       id: Number,
@@ -20,16 +20,6 @@ const BusSchema = new mongoose.Schema({
       contact_number: String,
     },
   ],
-  seat_layout: {
-    lower: {
-      first: [[Number]],
-      second: [Number],
-    },
-    upper: {
-      first: [[Number]],
-      second: [Number],
-    },
-  },
 });
 
 const BusModel = new mongoose.model("Bus", BusSchema);

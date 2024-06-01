@@ -34,8 +34,9 @@ const loginUser = catchAsync(async (req, res) => {
   if (!validPassword) {
     return res.status(400).send("Invalid email or password.");
   }
-  const token = encodeJwt(user);
-  res.send({ token });
+  const { name, contact_number, _id, address, age } = user;
+  const token = encodeJwt({ name, contact_number, _id, address, age });
+  res.send({ token, data: { name, contact_number, _id, address, age } });
 });
 
 module.exports = {

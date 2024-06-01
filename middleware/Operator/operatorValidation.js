@@ -28,7 +28,7 @@ const busSchema = z
     distance: z.record(z.number()),
     bus_type: z.enum(["simple", "seater"]),
     total_seats: z.number(),
-    availabe_seats: z.array(z.string()).nonempty(),
+    booked_seats: z.array(z.number()).nonempty(),
     staff: z
       .array(
         z.object({
@@ -39,18 +39,6 @@ const busSchema = z
         })
       )
       .nonempty(),
-    seat_layout: z.object({
-      lower: z.object({
-        first: z.array(z.array(z.number())),
-        second: z.array(z.number()),
-      }),
-      upper: z
-        .object({
-          first: z.array(z.array(z.number())),
-          second: z.array(z.number()),
-        })
-        .optional(),
-    }),
     operator: z.string(),
   })
   .refine((data) => data.departure_time.length === data.source.length, {
