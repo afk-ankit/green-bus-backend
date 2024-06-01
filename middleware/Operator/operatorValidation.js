@@ -24,11 +24,17 @@ const busSchema = z
     fare: z.number(),
     departure_time: z.array(z.string()).nonempty(),
     arrival_time: z.array(z.string()).nonempty(),
-    available_dates: z.array(z.string()).nonempty(),
+    available_dates: z
+      .array(
+        z.object({
+          date: z.string().min(1),
+          booked_seats: z.array(z.number()),
+        })
+      )
+      .nonempty(),
     distance: z.record(z.number()),
     bus_type: z.enum(["simple", "seater"]),
     total_seats: z.number(),
-    booked_seats: z.array(z.number()).nonempty(),
     staff: z
       .array(
         z.object({

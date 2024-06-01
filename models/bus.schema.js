@@ -7,11 +7,15 @@ const BusSchema = new mongoose.Schema({
   fare: Number,
   departure_time: [Date],
   arrival_time: [Date],
-  available_dates: [Date],
+  available_dates: [
+    {
+      date: Date,
+      booked_seats: [Number],
+    },
+  ],
   distance: { type: Map, of: Number },
   bus_type: String,
   total_seats: Number,
-  booked_seats: [Number],
   staff: [
     {
       id: Number,

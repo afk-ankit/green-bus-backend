@@ -13,10 +13,12 @@ const userAuth = async (req, res, next) => {
   try {
     const decoded = decodeJwt(token);
     const existingUser = await UserModel.findOne({ email: decoded.email });
+
     if (!existingUser) {
       throw new Error();
     }
-    req.user = existingUser;
+    const { _id, name, contact_number, age, email, address } = existingUser;
+    req.user = { _id, name, contact_number, age, email, address };
     next();
   } catch (err) {
     res.status(401).send("Invalid or expired token.");

@@ -17,11 +17,25 @@ const getBusById = catchAsync(async (req, res) => {
 });
 
 const searchBus = catchAsync(async (req, res) => {
-  const { source, destination } = req.body;
+  const { source, destination, date } = req.body;
+
+  const startOfDay = new Date(date);
+  startOfDay.setHours(0, 0, 0, 0);
+
+  const nextDay = new Date(startOfDay);
+  nextDay.setDate(startOfDay.getDate() + 1);
 
   const buses = await BusModel.find({
     source: { $in: [source] },
     destination: { $in: [destination] },
+    available_dates: {
+      $elemMatch: {
+        date: {
+          $gte: startOfDay,
+          $lt: nextDay,
+        },
+      },
+    },
   });
 
   if (buses.length == 0) {
@@ -37,4 +51,46 @@ const searchBus = catchAsync(async (req, res) => {
   });
 });
 
-module.exports = { searchBus, getBusById };
+const bookBus = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const { selected_seats, date } = req.body;
+
+  const startOfDay = new Date(date);
+  startOfDay.setHours(0, 0, 0, 0);
+
+  const nextDay = new Date(startOfDay);
+  nextDay.setDate(startOfDay.getDate() + 1);
+
+  const bus = await BusModel.findOneAndUpdate(
+    {
+      _id: id,
+      available_dates: {
+        $elemMatch: {
+          date: {
+            $gte: startOfDay,
+            $lt: nextDay,
+          },
+        },
+      },
+    },
+    {
+      $push: { "available_dates.$[].booked_seats": { $each: selected_seats } },
+    },
+    { new: true, runValidators: true }
+  );
+
+  if (!bus) {
+    return res.status(404).send({
+      message: "No bus found with this ID",
+    });
+  }
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      bus,
+    },
+  });
+});
+
+module.exports = { searchBus, getBusById, bookBus };
