@@ -24,8 +24,12 @@ const loginOperator = catchAsync(async (req, res) => {
   if (operator.token !== token) {
     return res.status(400).send("Invalid token.");
   }
-  const jwtToken = encodeJwt({ token, company_name, email });
-  res.send({ message: "Logged in successfully.", token: jwtToken });
+  const jwtToken = encodeJwt({ token, company_name, email, _id: operator._id });
+  res.send({
+    message: "Logged in successfully.",
+    token: jwtToken,
+    data: { token, company_name, email, _id: operator._id },
+  });
 });
 
 const createBus = catchAsync(async (req, res) => {
