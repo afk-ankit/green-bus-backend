@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const PassengerSchema = new mongoose.Schema({
+  user_id: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   name: String,
   contact_number: String,
   age: Number,

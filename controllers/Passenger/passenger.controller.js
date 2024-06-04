@@ -3,7 +3,9 @@ const PassengerModel = require("../../models/passenger.schema");
 
 const createPassenger = catchAsync(async (req, res) => {
   const { name, age, sex, contact_number } = req.body;
+  const { _id } = req.user;
   const Passenger = new PassengerModel({
+    user_id: _id,
     name,
     age,
     sex,

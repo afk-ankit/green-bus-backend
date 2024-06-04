@@ -3,7 +3,7 @@ const z = require("zod");
 const passengerSchema = z.object({
   name: z.string().min(1),
   age: z.number().int().positive(),
-  contact_number: z.string().optional(),
+  contact_number: z.string().optional().optional(),
   sex: z.enum(["male", "female", "others"]),
 });
 

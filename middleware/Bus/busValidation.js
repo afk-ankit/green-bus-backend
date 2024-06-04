@@ -5,6 +5,8 @@ const searchBusSchema = z.object({
   date: z.string().min("date is required"),
 });
 const bookBus = z.object({
+  source: z.string().min(1, "source required"),
+  destination: z.string().min(1, "destination required"),
   selected_seats: z.array(z.number()).nonempty(),
   date: z.string().min(1, "Date is required"),
 });

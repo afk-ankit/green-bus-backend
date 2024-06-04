@@ -53,7 +53,7 @@ const searchBus = catchAsync(async (req, res) => {
 
 const bookBus = catchAsync(async (req, res) => {
   const { id } = req.params;
-  const { selected_seats, date } = req.body;
+  const { selected_seats, date, source, destination } = req.body;
   const { email } = req.user;
 
   const startOfDay = new Date(date);
@@ -85,9 +85,11 @@ const bookBus = catchAsync(async (req, res) => {
       message: "No bus found with this ID",
     });
   }
-  const busDetails = `Bus ID: ${bus._id}, Source: ${bus.source}, Destination: ${
-    bus.destination
-  }, Date: ${date}, Seats: ${selected_seats.join(", ")}`;
+  const busDetails = `Bus ID: ${
+    bus._id
+  }, Source: ${source}, Destination: ${destination}, Date: ${date}, Seats: ${selected_seats.join(
+    ", "
+  )}`;
 
   // Send booking confirmation email
   await sendBookingConfirmationEmail(email, busDetails);
