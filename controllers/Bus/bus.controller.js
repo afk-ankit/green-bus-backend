@@ -1,3 +1,4 @@
+const OperatorModel = require("../../models/bus-operator.schema");
 const BusModel = require("../../models/bus.schema");
 const catchAsync = require("../../utils/catchAsync");
 const { sendBookingConfirmationEmail } = require("../../utils/email");
@@ -102,4 +103,15 @@ const bookBus = catchAsync(async (req, res) => {
   });
 });
 
-module.exports = { searchBus, getBusById, bookBus };
+const getBusByOperator = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const Allbuses = await BusModel.find({ operator: id });
+  const operator = await OperatorModel.findById(id);
+  if (Allbuses.length == 0) {
+    res.status(404).send("Bus not found");
+    return;
+  }
+  res.send({ data: [...Allbuses], operator_data: operator });
+});
+
+module.exports = { searchBus, getBusById, bookBus, getBusByOperator };
