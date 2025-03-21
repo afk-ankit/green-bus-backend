@@ -10,6 +10,8 @@ const operatorAuth = async (req, res, next) => {
   }
 
   const token = authHeader.split(" ")[1];
+  //TODO: add refresh token functionality
+  const refresh=()=>{}
   try {
     const decoded = decodeJwt(token);
     const existingUser = await OperatorModel.findOne({ email: decoded.email });
