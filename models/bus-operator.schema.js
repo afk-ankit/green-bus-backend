@@ -7,7 +7,8 @@ const OperatorSchema = new mongoose.Schema({
   address: String,
   contact_number: String,
   years_of_service: Number,
-  expiryDate:String
+  expiryDate:String,
+  birthDay:Boolean
 });
 
 const OperatorModel = new mongoose.model("Operator", OperatorSchema);
