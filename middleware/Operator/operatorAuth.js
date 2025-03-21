@@ -15,6 +15,8 @@ const operatorAuth = async (req, res, next) => {
     const existingUser = await OperatorModel.findOne({ email: decoded.email });
     if (!existingUser) {
       throw new Error();
+    }else{
+      res.send("Ankit Sharma")
     }
     req.user = existingUser;
     next();
